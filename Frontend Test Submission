@@ -1,1 +1,62 @@
+import React, { useState } from "react";
+import { TextField, Button, Card, CardContent } from "@mui/material";
+
+const UrlShortener = ({ onShorten }) => {
+  const [url, setUrl] = useState("");
+  const [validity, setValidity] = useState(30);
+  const [shortcode, setShortcode] = useState("");
+
+  const handleSubmit = () => {
+    if (!url.startsWith("http")) {
+      alert("Invalid URL format");
+      return;
+    }
+
+    const newUrl = {
+      originalUrl: url,
+      validity,
+      shortcode: shortcode || Math.random().toString(36).substring(2, 7),
+      createdAt: new Date(),
+    };
+
+    onShorten(newUrl);
+    setUrl("");
+    setShortcode("");
+    setValidity(30);
+  };
+
+  return (
+    <Card sx={{ margin: 2, padding: 2 }}>
+      <CardContent>
+        <TextField
+          label="Enter URL"
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          label="Validity (minutes)"
+          type="number"
+          value={validity}
+          onChange={(e) => setValidity(e.target.value)}
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          label="Custom Shortcode (optional)"
+          value={shortcode}
+          onChange={(e) => setShortcode(e.target.value)}
+          fullWidth
+          margin="normal"
+        />
+        <Button variant="contained" color="primary" onClick={handleSubmit}>
+          Shorten URL
+        </Button>
+      </CardContent>
+    </Card>
+  );
+};
+
+export default UrlShortener;
 
