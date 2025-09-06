@@ -1,1 +1,9 @@
+const loggingMiddleware = (store) => (next) => (action) => {
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] Action Type: ${action.type}`, action.payload);
+  
+  return next(action);
+};
+
+export default loggingMiddleware;
 
